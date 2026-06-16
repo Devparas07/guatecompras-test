@@ -1,8 +1,25 @@
-const axios = require('axios');
+const axios = require("axios");
 
-async function test() {
-    console.log("Project setup successful!");
-    console.log("Axios installed successfully!");
-}
+module.exports = async (req, res) => {
+  try {
+    const response = await axios.get(
+      "https://ocds.guatecompras.gt/file/csv/2026/6",
+      {
+        maxRedirects: 10,
+        timeout: 60000
+      }
+    );
 
-test();
+    res.status(200).json({
+      success: true,
+      status: response.status
+    });
+
+  } catch (err) {
+
+    res.status(200).json({
+      success: false,
+      error: err.response?.status || err.message
+    });
+  }
+};
